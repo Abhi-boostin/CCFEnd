@@ -1,0 +1,2643 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Choolha Chawka API",
+    "description": "API documentation for Choolha Chawka",
+    "termsOfService": "https://www.yoursite.com/terms/",
+    "contact": { "email": "support@yoursite.com" },
+    "license": { "name": "BSD License" },
+    "version": "v1"
+  },
+  "host": "mess.eba-4xdsrmc9.ap-south-1.elasticbeanstalk.com",
+  "schemes": ["http"],
+  "basePath": "/api",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": { "Basic": { "type": "basic" } },
+  "security": [{ "Basic": [] }],
+  "paths": {
+    "/accounts/change-password/": {
+      "post": {
+        "operationId": "accounts_change-password_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/complete-profile/": {
+      "post": {
+        "operationId": "accounts_complete-profile_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/login/": {
+      "post": {
+        "operationId": "accounts_login_create",
+        "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/TokenObtainPair" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/TokenObtainPair" }
+          }
+        },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/logout/": {
+      "post": {
+        "operationId": "accounts_logout_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/password-reset-confirm/": {
+      "post": {
+        "operationId": "accounts_password-reset-confirm_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/password-reset/": {
+      "post": {
+        "operationId": "accounts_password-reset_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/profile/": {
+      "get": {
+        "operationId": "accounts_profile_list",
+        "description": "",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/register/": {
+      "post": {
+        "operationId": "accounts_register_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/resend-otp/": {
+      "post": {
+        "operationId": "accounts_resend-otp_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/token/refresh/": {
+      "post": {
+        "operationId": "accounts_token_refresh_create",
+        "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/TokenRefresh" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/TokenRefresh" }
+          }
+        },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/accounts/verify-otp/": {
+      "post": {
+        "operationId": "accounts_verify-otp_create",
+        "description": "",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["accounts"]
+      },
+      "parameters": []
+    },
+    "/feedback/": {
+      "get": {
+        "operationId": "feedback_list",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "post": {
+        "operationId": "feedback_create",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/FeedbackCreate" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/FeedbackCreate" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_list",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "post": {
+        "operationId": "feedback_admin_feedback_create",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/dashboard_stats/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_dashboard_stats",
+        "description": "Get dashboard statistics for admin",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/pending_responses/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_pending_responses",
+        "description": "Get feedbacks pending admin response",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/priority_summary/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_priority_summary",
+        "description": "Get priority-wise feedback summary",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/recent_activity/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_recent_activity",
+        "description": "Get recent feedback activity for dashboard",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/urgent_complaints/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_urgent_complaints",
+        "description": "Get urgent food complaints",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/admin/feedback/{id}/": {
+      "get": {
+        "operationId": "feedback_admin_feedback_read",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "put": {
+        "operationId": "feedback_admin_feedback_update",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "patch": {
+        "operationId": "feedback_admin_feedback_partial_update",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "delete": {
+        "operationId": "feedback_admin_feedback_delete",
+        "description": "ViewSet for admin feedback management",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/feedback/admin/feedback/{id}/respond/": {
+      "post": {
+        "operationId": "feedback_admin_feedback_respond",
+        "description": "Respond to feedback",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/feedback/admin/feedback/{id}/update_status/": {
+      "patch": {
+        "operationId": "feedback_admin_feedback_update_status",
+        "description": "Update feedback status",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/feedback/my_stats/": {
+      "get": {
+        "operationId": "feedback_my_stats",
+        "description": "Get user's feedback statistics",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Feedback" }
+            }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "parameters": []
+    },
+    "/feedback/{id}/": {
+      "get": {
+        "operationId": "feedback_read",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "put": {
+        "operationId": "feedback_update",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "patch": {
+        "operationId": "feedback_partial_update",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "tags": ["feedback"]
+      },
+      "delete": {
+        "operationId": "feedback_delete",
+        "description": "ViewSet for customer feedback management",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/feedback/{id}/add_attachment/": {
+      "post": {
+        "operationId": "feedback_add_attachment",
+        "description": "Add attachment to feedback",
+        "parameters": [
+          {
+            "name": "feedback_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": ["food_complaint", "general_feedback"]
+          },
+          {
+            "name": "subject",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          {
+            "name": "message",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "name": "rating",
+            "in": "formData",
+            "description": "1=Very Poor, 5=Excellent",
+            "required": false,
+            "type": "integer",
+            "maximum": 5,
+            "minimum": 1,
+            "x-nullable": true
+          },
+          {
+            "name": "meal_date",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "x-nullable": true
+          },
+          {
+            "name": "meal_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": ["breakfast", "lunch", "dinner"],
+            "x-nullable": true
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": ["open", "in_progress", "resolved", "closed"]
+          },
+          {
+            "name": "admin_response",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Feedback" }
+          }
+        },
+        "consumes": [
+          "multipart/form-data",
+          "application/x-www-form-urlencoded"
+        ],
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/feedback/{id}/remove_attachment/": {
+      "delete": {
+        "operationId": "feedback_remove_attachment",
+        "description": "Remove attachment from feedback",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["feedback"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/notifications/logs/": {
+      "get": {
+        "operationId": "notifications_logs_list",
+        "description": "ViewSet for viewing notification history",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/NotificationLog" }
+            }
+          }
+        },
+        "tags": ["notifications"]
+      },
+      "parameters": []
+    },
+    "/notifications/logs/by_type/": {
+      "get": {
+        "operationId": "notifications_logs_by_type",
+        "description": "Get notifications grouped by type",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/NotificationLog" }
+            }
+          }
+        },
+        "tags": ["notifications"]
+      },
+      "parameters": []
+    },
+    "/notifications/logs/stats/": {
+      "get": {
+        "operationId": "notifications_logs_stats",
+        "description": "Get notification statistics for user",
+        "parameters": [
+          {
+            "name": "ordering",
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/NotificationLog" }
+            }
+          }
+        },
+        "tags": ["notifications"]
+      },
+      "parameters": []
+    },
+    "/notifications/logs/{id}/": {
+      "get": {
+        "operationId": "notifications_logs_read",
+        "description": "ViewSet for viewing notification history",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/NotificationLog" }
+          }
+        },
+        "tags": ["notifications"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/owner/leaves/": {
+      "get": {
+        "operationId": "owner_leaves_list",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "post": {
+        "operationId": "owner_leaves_create",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/LeaveCreate" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/LeaveCreate" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "parameters": []
+    },
+    "/owner/leaves/dashboard_stats/": {
+      "get": {
+        "operationId": "owner_leaves_dashboard_stats",
+        "description": "Get dashboard statistics (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "parameters": []
+    },
+    "/owner/leaves/pending/": {
+      "get": {
+        "operationId": "owner_leaves_pending",
+        "description": "Get all pending leave requests (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "parameters": []
+    },
+    "/owner/leaves/{id}/": {
+      "get": {
+        "operationId": "owner_leaves_read",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "put": {
+        "operationId": "owner_leaves_update",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "patch": {
+        "operationId": "owner_leaves_partial_update",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "delete": {
+        "operationId": "owner_leaves_delete",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["owner"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/owner/leaves/{id}/approve/": {
+      "post": {
+        "operationId": "owner_leaves_approve",
+        "description": "Approve leave request (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/owner/leaves/{id}/reject/": {
+      "post": {
+        "operationId": "owner_leaves_reject",
+        "description": "Reject leave request (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["owner"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/orders/": {
+      "get": {
+        "operationId": "payments_orders_list",
+        "description": "ViewSet for Razorpay order management",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RazorpayOrder" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "post": {
+        "operationId": "payments_orders_create",
+        "description": "Create Razorpay order for subscription payment",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RazorpayOrderCreate" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RazorpayOrderCreate" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/orders/verify_payment/": {
+      "post": {
+        "operationId": "payments_orders_verify_payment",
+        "description": "Verify Razorpay payment",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/orders/{id}/": {
+      "get": {
+        "operationId": "payments_orders_read",
+        "description": "ViewSet for Razorpay order management",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "put": {
+        "operationId": "payments_orders_update",
+        "description": "ViewSet for Razorpay order management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "patch": {
+        "operationId": "payments_orders_partial_update",
+        "description": "ViewSet for Razorpay order management",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RazorpayOrder" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "delete": {
+        "operationId": "payments_orders_delete",
+        "description": "ViewSet for Razorpay order management",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/payments/": {
+      "get": {
+        "operationId": "payments_payments_list",
+        "description": "ViewSet for viewing payment history",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Payment" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/payments/test_page/": {
+      "get": {
+        "operationId": "payments_payments_test_page",
+        "description": "Render payment test page",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Payment" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/payments/{id}/": {
+      "get": {
+        "operationId": "payments_payments_read",
+        "description": "ViewSet for viewing payment history",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Payment" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/payments/{id}/receipt/": {
+      "get": {
+        "operationId": "payments_payments_receipt",
+        "description": "Download payment receipt",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Payment" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/payments/{id}/receipt_pdf/": {
+      "get": {
+        "operationId": "payments_payments_receipt_pdf",
+        "description": "Download payment receipt as PDF",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Payment" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/refunds/": {
+      "get": {
+        "operationId": "payments_refunds_list",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RefundRequest" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "post": {
+        "operationId": "payments_refunds_create",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/refunds/approved/": {
+      "get": {
+        "operationId": "payments_refunds_approved",
+        "description": "Get all approved refund requests awaiting manual payment (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RefundRequest" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/refunds/pending/": {
+      "get": {
+        "operationId": "payments_refunds_pending",
+        "description": "Get all pending refund requests (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/RefundRequest" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/payments/refunds/{id}/": {
+      "get": {
+        "operationId": "payments_refunds_read",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "put": {
+        "operationId": "payments_refunds_update",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "patch": {
+        "operationId": "payments_refunds_partial_update",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "delete": {
+        "operationId": "payments_refunds_delete",
+        "description": "ViewSet for managing refund requests (Manual refund processing)",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/refunds/{id}/approve/": {
+      "post": {
+        "operationId": "payments_refunds_approve",
+        "description": "Approve refund request for manual processing (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/refunds/{id}/mark_paid/": {
+      "post": {
+        "operationId": "payments_refunds_mark_paid",
+        "description": "Mark refund as manually paid (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/refunds/{id}/reject/": {
+      "post": {
+        "operationId": "payments_refunds_reject",
+        "description": "Reject refund request (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/RefundRequest" }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/payments/test/": {
+      "get": {
+        "operationId": "payments_test_page",
+        "description": "Render payment test page",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Payment" }
+            }
+          }
+        },
+        "tags": ["payments"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/leaves/": {
+      "get": {
+        "operationId": "subscriptions_leaves_list",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "post": {
+        "operationId": "subscriptions_leaves_create",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/LeaveCreate" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/LeaveCreate" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/leaves/dashboard_stats/": {
+      "get": {
+        "operationId": "subscriptions_leaves_dashboard_stats",
+        "description": "Get dashboard statistics (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/leaves/pending/": {
+      "get": {
+        "operationId": "subscriptions_leaves_pending",
+        "description": "Get all pending leave requests (Mess Owner only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Leave" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/leaves/{id}/": {
+      "get": {
+        "operationId": "subscriptions_leaves_read",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "put": {
+        "operationId": "subscriptions_leaves_update",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "patch": {
+        "operationId": "subscriptions_leaves_partial_update",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "delete": {
+        "operationId": "subscriptions_leaves_delete",
+        "description": "ViewSet for managing leave requests",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/subscriptions/leaves/{id}/approve/": {
+      "post": {
+        "operationId": "subscriptions_leaves_approve",
+        "description": "Approve leave request (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/subscriptions/leaves/{id}/reject/": {
+      "post": {
+        "operationId": "subscriptions_leaves_reject",
+        "description": "Reject leave request (Mess Owner only)",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Leave" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/subscriptions/plans/": {
+      "get": {
+        "operationId": "subscriptions_plans_list",
+        "description": "ViewSet for listing and retrieving plans",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Plan" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/plans/{id}/": {
+      "get": {
+        "operationId": "subscriptions_plans_read",
+        "description": "ViewSet for listing and retrieving plans",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Plan" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this plan.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/subscriptions/subscriptions/": {
+      "get": {
+        "operationId": "subscriptions_subscriptions_list",
+        "description": "ViewSet for managing user subscriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Subscription" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "post": {
+        "operationId": "subscriptions_subscriptions_create",
+        "description": "Create a new subscription",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SubscriptionCreate" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/SubscriptionCreate" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/subscriptions/active/": {
+      "get": {
+        "operationId": "subscriptions_subscriptions_active",
+        "description": "Get user's active subscription",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Subscription" }
+            }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": []
+    },
+    "/subscriptions/subscriptions/{id}/": {
+      "get": {
+        "operationId": "subscriptions_subscriptions_read",
+        "description": "ViewSet for managing user subscriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "put": {
+        "operationId": "subscriptions_subscriptions_update",
+        "description": "ViewSet for managing user subscriptions",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "patch": {
+        "operationId": "subscriptions_subscriptions_partial_update",
+        "description": "ViewSet for managing user subscriptions",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "delete": {
+        "operationId": "subscriptions_subscriptions_delete",
+        "description": "ViewSet for managing user subscriptions",
+        "parameters": [],
+        "responses": { "204": { "description": "" } },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/subscriptions/subscriptions/{id}/cancel/": {
+      "post": {
+        "operationId": "subscriptions_subscriptions_cancel",
+        "description": "Cancel a subscription and calculate refund",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    },
+    "/subscriptions/subscriptions/{id}/renew/": {
+      "post": {
+        "operationId": "subscriptions_subscriptions_renew",
+        "description": "Renew an expired or expiring subscription",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/Subscription" }
+          }
+        },
+        "tags": ["subscriptions"]
+      },
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "type": "string" }
+      ]
+    }
+  },
+  "definitions": {
+    "TokenObtainPair": {
+      "required": ["username", "password"],
+      "type": "object",
+      "properties": {
+        "username": { "title": "Username", "type": "string", "minLength": 1 },
+        "password": { "title": "Password", "type": "string", "minLength": 1 }
+      }
+    },
+    "TokenRefresh": {
+      "required": ["refresh"],
+      "type": "object",
+      "properties": {
+        "refresh": { "title": "Refresh", "type": "string", "minLength": 1 },
+        "access": {
+          "title": "Access",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "StudentProfile": {
+      "required": ["institute", "hostel"],
+      "type": "object",
+      "properties": {
+        "institute": {
+          "title": "Institute",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "student_id": {
+          "title": "Student id",
+          "type": "string",
+          "maxLength": 50
+        },
+        "hostel": {
+          "title": "Hostel",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        }
+      }
+    },
+    "RegularProfile": {
+      "required": ["address"],
+      "type": "object",
+      "properties": {
+        "address": { "title": "Address", "type": "string", "minLength": 1 },
+        "landmark": { "title": "Landmark", "type": "string", "maxLength": 255 }
+      }
+    },
+    "MessOwnerProfile": {
+      "required": ["mess_name", "business_address"],
+      "type": "object",
+      "properties": {
+        "mess_name": {
+          "title": "Mess name",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "business_address": {
+          "title": "Business address",
+          "type": "string",
+          "minLength": 1
+        },
+        "business_phone": {
+          "title": "Business phone",
+          "type": "string",
+          "maxLength": 15
+        },
+        "business_email": {
+          "title": "Business email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 254
+        },
+        "gst_number": {
+          "title": "Gst number",
+          "type": "string",
+          "maxLength": 20
+        }
+      }
+    },
+    "UserProfile": {
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "username": {
+          "title": "Username",
+          "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "email": {
+          "title": "Email address",
+          "type": "string",
+          "format": "email",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "phone": {
+          "title": "Phone",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "user_type": {
+          "title": "User type",
+          "type": "string",
+          "enum": ["student", "regular", "mess_owner"]
+        },
+        "is_tiffin_user": { "title": "Is tiffin user", "type": "boolean" },
+        "is_mess_user": { "title": "Is mess user", "type": "boolean" },
+        "preferred_delivery_time": {
+          "title": "Preferred delivery time",
+          "type": "string",
+          "maxLength": 100
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["unverified", "registration_complete", "profile_complete"],
+          "readOnly": true
+        },
+        "student_profile": { "$ref": "#/definitions/StudentProfile" },
+        "regular_profile": { "$ref": "#/definitions/RegularProfile" },
+        "mess_owner_profile": { "$ref": "#/definitions/MessOwnerProfile" }
+      }
+    },
+    "SubscriptionBasic": {
+      "required": [
+        "plan",
+        "base_price",
+        "total_paid",
+        "subscription_type",
+        "start_date",
+        "base_end_date",
+        "adjusted_end_date"
+      ],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "plan": { "title": "Plan", "type": "integer" },
+        "breakfast_included": {
+          "title": "Breakfast included",
+          "type": "boolean"
+        },
+        "base_price": {
+          "title": "Base price",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "breakfast_addon_price": {
+          "title": "Breakfast addon price",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "total_paid": {
+          "title": "Total paid",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "subscription_type": {
+          "title": "Subscription type",
+          "type": "string",
+          "enum": ["mess", "tiffin"]
+        },
+        "start_date": {
+          "title": "Start date",
+          "type": "string",
+          "format": "date"
+        },
+        "base_end_date": {
+          "title": "Base end date",
+          "type": "string",
+          "format": "date"
+        },
+        "adjusted_end_date": {
+          "title": "Adjusted end date",
+          "type": "string",
+          "format": "date"
+        },
+        "leave_days": {
+          "title": "Leave days",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "CANCELLED",
+            "EXPIRED",
+            "PENDING_PAYMENT",
+            "RENEWED"
+          ]
+        },
+        "cancelled_at": {
+          "title": "Cancelled at",
+          "type": "string",
+          "format": "date-time",
+          "x-nullable": true
+        },
+        "days_remaining": {
+          "title": "Days remaining",
+          "type": "string",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "FeedbackAttachment": {
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "file": {
+          "title": "File",
+          "type": "string",
+          "readOnly": true,
+          "format": "uri"
+        },
+        "original_filename": {
+          "title": "Original filename",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "file_size": {
+          "title": "File size",
+          "type": "integer",
+          "readOnly": true
+        },
+        "uploaded_at": {
+          "title": "Uploaded at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Feedback": {
+      "required": ["feedback_type", "subject", "message"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "user": { "$ref": "#/definitions/UserProfile" },
+        "feedback_type": {
+          "title": "Feedback type",
+          "type": "string",
+          "enum": ["food_complaint", "general_feedback"]
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "message": { "title": "Message", "type": "string", "minLength": 1 },
+        "rating": {
+          "title": "Rating",
+          "description": "1=Very Poor, 5=Excellent",
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "x-nullable": true
+        },
+        "subscription": { "$ref": "#/definitions/SubscriptionBasic" },
+        "meal_date": {
+          "title": "Meal date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "meal_type": {
+          "title": "Meal type",
+          "type": "string",
+          "enum": ["breakfast", "lunch", "dinner"],
+          "x-nullable": true
+        },
+        "priority": {
+          "title": "Priority",
+          "type": "string",
+          "enum": ["low", "medium", "high", "urgent"],
+          "readOnly": true
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["open", "in_progress", "resolved", "closed"]
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "admin_response": { "title": "Admin response", "type": "string" },
+        "responded_at": {
+          "title": "Responded at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "responded_by": { "$ref": "#/definitions/UserProfile" },
+        "attachments": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/FeedbackAttachment" },
+          "readOnly": true
+        },
+        "days_since_created": {
+          "title": "Days since created",
+          "type": "string",
+          "readOnly": true
+        },
+        "is_food_complaint": {
+          "title": "Is food complaint",
+          "type": "string",
+          "readOnly": true
+        },
+        "is_urgent": {
+          "title": "Is urgent",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "FeedbackCreate": {
+      "required": ["feedback_type", "subject", "message"],
+      "type": "object",
+      "properties": {
+        "feedback_type": {
+          "title": "Feedback type",
+          "type": "string",
+          "enum": ["food_complaint", "general_feedback"]
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "message": { "title": "Message", "type": "string", "minLength": 1 },
+        "rating": {
+          "title": "Rating",
+          "description": "1=Very Poor, 5=Excellent",
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "x-nullable": true
+        },
+        "subscription": {
+          "title": "Subscription",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "meal_date": {
+          "title": "Meal date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "meal_type": {
+          "title": "Meal type",
+          "type": "string",
+          "enum": ["breakfast", "lunch", "dinner"],
+          "x-nullable": true
+        }
+      }
+    },
+    "NotificationLog": {
+      "required": ["notification_type", "channel"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "notification_type": {
+          "title": "Notification type",
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "channel": {
+          "title": "Channel",
+          "type": "string",
+          "enum": ["email", "sms"]
+        },
+        "recipient_email": {
+          "title": "Recipient email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 254
+        },
+        "recipient_phone": {
+          "title": "Recipient phone",
+          "type": "string",
+          "maxLength": 15
+        },
+        "subject": { "title": "Subject", "type": "string", "maxLength": 255 },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["sent", "failed", "pending"]
+        },
+        "error_message": { "title": "Error message", "type": "string" },
+        "sent_at": {
+          "title": "Sent at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Plan": {
+      "required": ["code", "name", "service_type", "base_price"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "code": {
+          "title": "Code",
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 1
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "description": { "title": "Description", "type": "string" },
+        "service_type": {
+          "title": "Service type",
+          "type": "string",
+          "enum": ["mess", "tiffin"]
+        },
+        "base_price": {
+          "title": "Base price",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "included_meals": { "title": "Included meals", "type": "object" },
+        "can_add_breakfast": {
+          "title": "Can add breakfast",
+          "type": "boolean"
+        },
+        "breakfast_addon_price": {
+          "title": "Breakfast addon price",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "duration_days": {
+          "title": "Duration days",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "is_active": { "title": "Is active", "type": "boolean" }
+      }
+    },
+    "Subscription": {
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "plan": { "$ref": "#/definitions/Plan" },
+        "breakfast_included": {
+          "title": "Breakfast included",
+          "type": "boolean"
+        },
+        "base_price": {
+          "title": "Base price",
+          "type": "integer",
+          "readOnly": true
+        },
+        "breakfast_addon_price": {
+          "title": "Breakfast addon price",
+          "type": "integer",
+          "readOnly": true
+        },
+        "total_paid": {
+          "title": "Total paid",
+          "type": "integer",
+          "readOnly": true
+        },
+        "subscription_type": {
+          "title": "Subscription type",
+          "type": "string",
+          "enum": ["mess", "tiffin"],
+          "readOnly": true
+        },
+        "start_date": {
+          "title": "Start date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "base_end_date": {
+          "title": "Base end date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "adjusted_end_date": {
+          "title": "Adjusted end date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true
+        },
+        "leave_days": {
+          "title": "Leave days",
+          "type": "integer",
+          "readOnly": true
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "CANCELLED",
+            "EXPIRED",
+            "PENDING_PAYMENT",
+            "RENEWED"
+          ]
+        },
+        "cancelled_at": {
+          "title": "Cancelled at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "days_remaining": {
+          "title": "Days remaining",
+          "type": "string",
+          "readOnly": true
+        },
+        "is_active": {
+          "title": "Is active",
+          "type": "string",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Leave": {
+      "required": ["leave_start_date", "leave_end_date", "reason"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "subscription": { "$ref": "#/definitions/Subscription" },
+        "leave_start_date": {
+          "title": "Leave start date",
+          "type": "string",
+          "format": "date"
+        },
+        "leave_end_date": {
+          "title": "Leave end date",
+          "type": "string",
+          "format": "date"
+        },
+        "duration_days": {
+          "title": "Duration days",
+          "type": "integer",
+          "readOnly": true
+        },
+        "reason": { "title": "Reason", "type": "string", "minLength": 1 },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["PENDING", "APPROVED", "REJECTED", "AUTO_APPROVED"],
+          "readOnly": true
+        },
+        "requested_at": {
+          "title": "Requested at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "reviewed_at": {
+          "title": "Reviewed at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "reviewed_by_name": {
+          "title": "Reviewed by name",
+          "type": "string",
+          "readOnly": true
+        },
+        "admin_comment": {
+          "title": "Admin comment",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "LeaveCreate": {
+      "required": [
+        "subscription",
+        "leave_start_date",
+        "leave_end_date",
+        "reason"
+      ],
+      "type": "object",
+      "properties": {
+        "subscription": { "title": "Subscription", "type": "integer" },
+        "leave_start_date": {
+          "title": "Leave start date",
+          "type": "string",
+          "format": "date"
+        },
+        "leave_end_date": {
+          "title": "Leave end date",
+          "type": "string",
+          "format": "date"
+        },
+        "reason": { "title": "Reason", "type": "string", "minLength": 1 }
+      }
+    },
+    "RazorpayOrder": {
+      "required": ["order_id", "amount"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "order_id": {
+          "title": "Order id",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "amount_inr": {
+          "title": "Amount inr",
+          "type": "string",
+          "readOnly": true
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string",
+          "maxLength": 3,
+          "minLength": 1
+        },
+        "subscription": { "$ref": "#/definitions/Subscription" },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "maxLength": 20,
+          "minLength": 1
+        },
+        "receipt": { "title": "Receipt", "type": "string", "maxLength": 100 },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "RazorpayOrderCreate": {
+      "required": ["subscription"],
+      "type": "object",
+      "properties": {
+        "subscription": { "title": "Subscription", "type": "integer" }
+      }
+    },
+    "Payment": {
+      "required": ["transaction_id", "amount"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "subscription": { "$ref": "#/definitions/Subscription" },
+        "payment_gateway": {
+          "title": "Payment gateway",
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 1
+        },
+        "transaction_id": {
+          "title": "Transaction id",
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "amount_inr": {
+          "title": "Amount inr",
+          "type": "string",
+          "readOnly": true
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string",
+          "maxLength": 3,
+          "minLength": 1
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["INITIATED", "SUCCESS", "FAILED", "PENDING"]
+        },
+        "gateway_order_id": {
+          "title": "Gateway order id",
+          "type": "string",
+          "maxLength": 100
+        },
+        "gateway_payment_id": {
+          "title": "Gateway payment id",
+          "type": "string",
+          "maxLength": 100
+        },
+        "failure_reason": { "title": "Failure reason", "type": "string" },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "RefundRequest": {
+      "required": ["amount"],
+      "type": "object",
+      "properties": {
+        "id": { "title": "ID", "type": "integer", "readOnly": true },
+        "subscription": { "$ref": "#/definitions/Subscription" },
+        "original_payment": { "$ref": "#/definitions/Payment" },
+        "requested_at": {
+          "title": "Requested at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "amount_inr": {
+          "title": "Amount inr",
+          "type": "string",
+          "readOnly": true
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": ["PENDING", "APPROVED", "REJECTED", "PROCESSED", "PAID"]
+        },
+        "admin_comment": { "title": "Admin comment", "type": "string" },
+        "processed_at": {
+          "title": "Processed at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "refund_transaction_id": {
+          "title": "Refund transaction id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "SubscriptionCreate": {
+      "required": ["plan"],
+      "type": "object",
+      "properties": {
+        "plan": { "title": "Plan", "type": "integer" },
+        "breakfast_included": {
+          "title": "Breakfast included",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

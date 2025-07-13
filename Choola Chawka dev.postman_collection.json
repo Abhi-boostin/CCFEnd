@@ -1,0 +1,1065 @@
+{
+	"info": {
+		"_postman_id": "2d1aa067-3545-4b41-87e4-724c7376e5eb",
+		"name": "Choola Chawka dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28217967"
+	},
+	"item": [
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "Registration endpoint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser2\",\n  \"email\": \"test2@example.com\",\n  \"phone\": \"+918738059086\",\n  \"password\": \"securepassword123\",\n  \"confirm_password\": \"securepassword123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend-otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"+918738059086\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/resend-otp/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"resend-otp",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OTP Verification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"+918738059086\",\n  \"otp\": \"872990\"  // Use the OTP shown in your console or sent via Twilio\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/verify-otp/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"verify-otp",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser2\",\n  \"password\": \"securepassword123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a10d5646806541d35f50e16ea992488441729daf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_type\": \"student\",\n  \"is_tiffin_user\": true,\n  \"is_mess_user\": false,\n  \"preferred_delivery_time\": \"6:00 PM\",\n  \"student_profile\": {\n    \"institute\": \"ABC College\",\n    \"student_id\": \"ST12345\",\n    \"hostel\": \"Hostel Block A\"\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/complete-profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"complete-profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a10d5646806541d35f50e16ea992488441729daf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/accounts/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "password-reset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"himan9506492198@gmail.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/accounts/password-reset/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"accounts",
+								"password-reset",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "password-change",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"old_password\": \"testpass123\",\n  \"new_password\": \"newpass123\", \n  \"confirm_password\": \"newpass123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/accounts/change-password/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"accounts",
+								"change-password",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "List All Plans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token a10d5646806541d35f50e16ea992488441729daf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/plans/?service_type=mess",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"plans",
+								""
+							],
+							"query": [
+								{
+									"key": "service_type",
+									"value": "mess"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a10d5646806541d35f50e16ea992488441729daf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plan\": 2,\n  \"breakfast_included\": false\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/subscriptions/1/cancel/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"subscriptions",
+								"1",
+								"cancel",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "subscription cancel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/subscriptions/5/cancel/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"subscriptions",
+								"5",
+								"cancel",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refund processed",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Leave Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subscription\": 5,\n  \"leave_start_date\": \"2025-07-10\",\n  \"leave_end_date\": \"2025-07-15\",\n  \"reason\": \"Going home for family function finally\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List User's Leave Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: View Pending Leaves",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/pending/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								"pending",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Approve Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_comment\": \"Approved. Enjoy your time with family!\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/4/approve/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								"4",
+								"approve",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Reject Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_comment\": \"Cannot approve due to high demand period. Please reschedule.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/4/reject/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								"4",
+								"reject",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Leave Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Renew Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/subscriptions/6/renew/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"subscriptions",
+								"6",
+								"renew",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Notification Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/notifications/logs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"notifications",
+								"logs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Create Razorpay Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subscription\": 4\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/payments/orders/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Payment Success",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "List User's Refund Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/payments/payments/refunds/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"payments",
+								"refunds",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: View Pending Refunds",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/payments/refunds/pending/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"refunds",
+								"pending",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Approve Refund",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_comment\": \"Refund approved as per policy. Will be processed manually within 5-7 business days.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/payments/refunds/1/approve/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"refunds",
+								"1",
+								"approve",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Mark Refund as Paid",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n//   \"transaction_id\": \"manual_txn_12345\",\n  \"admin_comment\": \"Refund processed via bank transfer on 2025-07-04\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/payments/refunds/1/mark_paid/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"refunds",
+								"1",
+								"mark_paid",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feedback",
+			"item": [
+				{
+					"name": "Submit feedback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"feedback_type\": \"food_complaint\",\n  \"subject\": \"Food was cold\",\n  \"message\": \"The lunch was cold today.\",\n  \"meal_date\": \"2025-07-03\",\n  \"meal_type\": \"lunch\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Your/ALL Feedback",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an attachment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/himanshu-dev/Pictures/Screenshots/Screenshot from 2025-07-02 09-27-07.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/1/add_attachment/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"1",
+								"add_attachment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Feedback Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/my_stats/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"my_stats",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all feedback",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/admin/feedback/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"admin",
+								"feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin respond",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"admin_response\": \"Thank you for your feedback. We are looking into it.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/admin/feedback/1/respond/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"admin",
+								"feedback",
+								"1",
+								"respond",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin: Update Feedback Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"status\": \"resolved\" }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/admin/feedback/1/update_status/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"admin",
+								"feedback",
+								"1",
+								"update_status",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leave",
+			"item": [
+				{
+					"name": "leave approve",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
