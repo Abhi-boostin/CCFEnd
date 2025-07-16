@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { subscriptionService } from '../../services/api';
+import { paymentService } from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import { 
   ChefHat, 
@@ -34,6 +35,8 @@ export default function PlansPage() {
   const [loading, setLoading] = useState(true);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [includeBreakfast, setIncludeBreakfast] = useState(false);
+  const [paymentModal, setPaymentModal] = useState<{ subscriptionId: number; plan: Plan; amount: number } | null>(null);
+  const [paying, setPaying] = useState(false);
 
   useEffect(() => {
     fetchPlans();
@@ -71,14 +74,31 @@ export default function PlansPage() {
         breakfast_included: includeBreakfast
       };
 
-      await subscriptionService.createSubscription(subscriptionData);
-      
+      const response = await subscriptionService.createSubscription(subscriptionData);
+      const subscriptionId = response.data.id;
       addNotification({
         type: 'success',
         title: 'Subscription Created',
         message: 'Your meal plan subscription has been created successfully!'
       });
-      
+
+      // Immediately create payment order for this subscription
+      try {
+        const orderRes = await paymentService.createOrder({ subscription: subscriptionId });
+        // Show payment modal with details
+        setPaymentModal({
+          subscriptionId,
+          plan,
+          amount: plan.base_price + (includeBreakfast ? plan.breakfast_addon_price : 0)
+        });
+      } catch (err: any) {
+        addNotification({
+          type: 'error',
+          title: 'Payment Order Failed',
+          message: err.response?.data?.detail || 'Failed to create payment order. Please try from Subscriptions tab.'
+        });
+      }
+
       setSelectedPlan(null);
     } catch (error: any) {
       addNotification({
@@ -87,6 +107,24 @@ export default function PlansPage() {
         message: error.response?.data?.detail || 'Failed to create subscription'
       });
     }
+  };
+
+  // Simulate payment completion
+  const handlePayNow = async () => {
+    if (!paymentModal) return;
+    setPaying(true);
+    // Simulate payment delay
+    setTimeout(() => {
+      setPaying(false);
+      setPaymentModal(null);
+      addNotification({
+        type: 'success',
+        title: 'Payment Successful',
+        message: 'Your payment was successful! Your subscription is now active.'
+      });
+      // Optionally, refresh subscriptions/payments here
+      // window.location.reload();
+    }, 1500);
   };
 
   const getServiceIcon = (serviceType: string) => {
@@ -247,6 +285,35 @@ export default function PlansPage() {
                 className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
               >
                 Confirm Subscription
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Modal */}
+      {paymentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Complete Payment</h3>
+            <div className="mb-4">
+              <p className="text-lg font-semibold text-gray-900">{paymentModal.plan.name}</p>
+              <p className="text-gray-600">Total Amount: <span className="font-bold">₹{paymentModal.amount}</span></p>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setPaymentModal(null)}
+                className="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-lg font-medium transition-colors"
+                disabled={paying}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handlePayNow}
+                className={`flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors ${paying ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={paying}
+              >
+                {paying ? 'Processing...' : 'Pay Now'}
               </button>
             </div>
           </div>

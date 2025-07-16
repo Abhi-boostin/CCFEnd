@@ -77,6 +77,9 @@ export const subscriptionService = {
   
   renewSubscription: (id: number, data: any = {}) =>
     apiClient.post(`/subscriptions/subscriptions/${id}/renew/`, data),
+
+  deleteSubscription: (id: number) =>
+    apiClient.delete(`/subscriptions/subscriptions/${id}/`),
 };
 
 // Feedback services

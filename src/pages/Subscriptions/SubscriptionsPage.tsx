@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { subscriptionService } from '../../services/api';
+import { paymentService } from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 import { 
   Package, 
@@ -51,6 +52,24 @@ export default function SubscriptionsPage() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteSubscription = async (id: number) => {
+    try {
+      await subscriptionService.deleteSubscription(id);
+      addNotification({
+        type: 'success',
+        title: 'Subscription Deleted',
+        message: 'The pending subscription has been deleted.'
+      });
+      fetchSubscriptions();
+    } catch (error: any) {
+      addNotification({
+        type: 'error',
+        title: 'Delete Failed',
+        message: error.response?.data?.detail || 'Failed to delete subscription.'
+      });
     }
   };
 
@@ -192,6 +211,14 @@ export default function SubscriptionsPage() {
                       </button>
                     )}
                     
+                    {subscription.status === 'PENDING_PAYMENT' && (
+                      <button
+                        className="border border-red-300 text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-colors"
+                        onClick={() => handleDeleteSubscription(subscription.id)}
+                      >
+                        Delete Subscription
+                      </button>
+                    )}
                     <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors">
                       View Details
                     </button>
