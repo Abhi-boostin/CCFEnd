@@ -53,6 +53,13 @@ export const authService = {
     apiClient.post('/accounts/verify-otp/', otpData),
   resendOtp: (data: { phone: string }) =>
     apiClient.post('/accounts/resend-otp/', data),
+  // Password reset methods - Token-based flow
+  requestPasswordReset: (data: { email: string }) =>
+    apiClient.post('/accounts/password-reset/', data),
+  verifyResetToken: (uidb64: string, token: string) =>
+    apiClient.get(`/accounts/password-reset/${uidb64}/${token}/`),
+  setNewPasswordWithToken: (data: { uidb64: string; token: string; new_password: string; confirm_password: string }) =>
+    apiClient.post('/accounts/password-reset-confirm/', data),
 };
 
 // Subscription services

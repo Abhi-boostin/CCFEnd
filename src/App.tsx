@@ -8,6 +8,8 @@ import LoadingSpinner from './components/UI/LoadingSpinner';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
+import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/Auth/ResetPasswordPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import SubscriptionsPage from './pages/Subscriptions/SubscriptionsPage';
 import PlansPage from './pages/Subscriptions/PlansPage';
@@ -71,6 +73,8 @@ function AppContent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />} />
           <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:uidb64/:token/*" element={<ResetPasswordPage />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>
               {user?.user_type === 'mess_owner' ? <AdminDashboard /> : <DashboardPage />}
