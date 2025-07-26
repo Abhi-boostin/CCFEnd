@@ -12,7 +12,9 @@ import {
   CheckCircle,
   XCircle,
   Plus,
-  Send
+  Send,
+  Paperclip,
+  X
 } from 'lucide-react';
 
 interface Feedback {
@@ -46,6 +48,7 @@ export default function FeedbackPage() {
     meal_date: '',
     meal_type: ''
   });
+  const [attachment, setAttachment] = useState<File | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -83,7 +86,14 @@ export default function FeedbackPage() {
         meal_type: formData.meal_type || null
       };
 
-      await feedbackService.createFeedback(submitData);
+      const feedbackRes = await feedbackService.createFeedback(submitData);
+      const feedbackId = feedbackRes.data?.id;
+      // Upload attachment if present
+      if (attachment && feedbackId) {
+        const formDataObj = new FormData();
+        formDataObj.append('file', attachment);
+        await feedbackService.addAttachment(feedbackId, formDataObj);
+      }
       
       addNotification({
         type: 'success',
@@ -101,7 +111,7 @@ export default function FeedbackPage() {
         meal_date: '',
         meal_type: ''
       });
-      
+      setAttachment(null);
       fetchData();
     } catch (error: any) {
       addNotification({
@@ -110,6 +120,19 @@ export default function FeedbackPage() {
         message: error.response?.data?.detail || 'Failed to submit feedback'
       });
     }
+  };
+
+  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file && file.size > 5 * 1024 * 1024) { // 5MB limit
+      addNotification({
+        type: 'error',
+        title: 'File Too Large',
+        message: 'Attachment must be less than 5MB.'
+      });
+      return;
+    }
+    setAttachment(file);
   };
 
   const getStatusColor = (status: string) => {
@@ -275,7 +298,12 @@ export default function FeedbackPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Submit Feedback</h3>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900">Submit Feedback</h3>
+                <button onClick={() => setShowForm(false)} className="text-gray-400 hover:text-gray-600 text-2xl font-bold">
+                  <X className="w-7 h-7" />
+                </button>
+              </div>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -388,6 +416,19 @@ export default function FeedbackPage() {
                     </div>
                   </div>
                 )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <Paperclip className="w-4 h-4" /> Attachment (optional)
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAttachmentChange}
+                    className="block w-full mt-1"
+                  />
+                  {attachment && <div className="text-xs text-gray-500 mt-1">Selected: {attachment.name}</div>}
+                </div>
 
                 <div className="flex space-x-3 pt-4">
                   <button

@@ -219,9 +219,6 @@ export default function SubscriptionsPage() {
                         Delete Subscription
                       </button>
                     )}
-                    <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors">
-                      View Details
-                    </button>
                   </div>
                 </div>
               </div>

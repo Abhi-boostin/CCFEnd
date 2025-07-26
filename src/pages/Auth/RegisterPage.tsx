@@ -486,35 +486,35 @@ export default function RegisterPage() {
 
               {/* OTP Field - Only visible after Create Account is clicked */}
               {otpSent && (
-                <div>
-                  <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
-                    OTP Verification
-                  </label>
-                  <div className="flex gap-3">
-                    <div className="flex-1 relative">
-                      <input
-                        id="otp"
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                        placeholder="Enter 6-digit OTP"
-                        maxLength={6}
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleSendOtp}
-                      disabled={resendLoading || !formData.phone.trim()}
-                      className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                    >
-                      {resendLoading ? (
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      ) : (
-                        'Resend OTP'
-                      )}
-                    </button>
+              <div>
+                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
+                  OTP Verification
+                </label>
+                <div className="flex gap-3">
+                  <div className="flex-1 relative">
+                    <input
+                      id="otp"
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                      placeholder="Enter 6-digit OTP"
+                      maxLength={6}
+                    />
                   </div>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={resendLoading || !formData.phone.trim()}
+                    className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                  >
+                    {resendLoading ? (
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                      'Resend OTP'
+                    )}
+                  </button>
+                </div>
                   <p className="text-sm text-gray-600 mt-2">
                     {phoneExists 
                       ? 'An account with this phone number already exists. Please verify with OTP.'
@@ -535,8 +535,8 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
-              )}
-            </form>
+                )}
+                        </form>
           )}
 
           {/* Profile Completion Form */}

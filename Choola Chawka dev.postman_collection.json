@@ -256,6 +256,65 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Token refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MzA0MzUyNSwiaWF0IjoxNzUyNDM4NzI1LCJqdGkiOiI4MWM2ODA0NWRhOWE0Y2M4YjFkMjFjZWM5Mzg1OGYwOCIsInVzZXJfaWQiOjJ9.WpGqZGglKqxOiY_X9IHp0P3YV8tzABdQrTJD0Xd-iPA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/api/accounts/token/refresh/",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"token",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "password--reset-confirm",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uidb64\": \"Mw\",\n    \"token\": \"ctjtpb-913a79f1cded85a60996d9b0fb59680a\",\n    \"new_password\": \"newSecurePassword123\",\n    \"confirm_password\":\"newSecurePassword123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_url}}/api/accounts/password-reset-confirm/",
+							"host": [
+								"{{dev_url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"password-reset-confirm",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -347,7 +406,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/subscriptions/subscriptions/5/cancel/",
+							"raw": "http://localhost:8000/api/subscriptions/subscriptions/6/cancel/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -357,7 +416,7 @@
 								"api",
 								"subscriptions",
 								"subscriptions",
-								"5",
+								"6",
 								"cancel",
 								""
 							]
@@ -369,7 +428,28 @@
 					"name": "refund processed",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/payments/refunds/3/reject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"refunds",
+								"3",
+								"reject"
+							]
+						}
 					},
 					"response": []
 				},
@@ -549,7 +629,28 @@
 					"name": "Admin: Leave Dashboard Stats",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 52522c238183f568cb2ba5a8b4d90a6cd89eb8fe",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/subscriptions/leaves/dashboard_stats/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"subscriptions",
+								"leaves",
+								"dashboard_stats",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -577,6 +678,104 @@
 								"subscriptions",
 								"6",
 								"renew",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDM3NDQ3LCJpYXQiOjE3NTI0MzU2NDcsImp0aSI6IjcxMThiNDYwYjYzMjRjNDU5NWZjMmNhYWZiNDUwYmQxIiwidXNlcl9pZCI6Mn0.3bF3Rytfq1NKnf7XKAVSjjPw9LN3KYuG5mKfooYgAlM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "     {\n         \"code\": \"PLAN001\",\n         \"name\": \"Basic Plan\",\n         \"description\": \"Basic subscription plan\",\n         \"service_type\": \"mess\",\n         \"base_price\": 100,\n         \"included_meals\": [\"lunch\"]\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/api/subscriptions/plans/",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"plans",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update plan",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDQyNjM3LCJpYXQiOjE3NTI0NDA4MzcsImp0aSI6ImI1MjgzZDZiNmNiYjQ0ODFiZjA5N2NhNzRhOTBjMDg2IiwidXNlcl9pZCI6Mn0.znpd_hN5xIe0qnCz_nfnwE5rbpViCi4yliicZDGFEMU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "     {\n         \"name\": \"Updated Plan Name\",\n         \"base_price\": 120\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/api/subscriptions/plans/3/",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"plans",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete plan",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDQyNjM3LCJpYXQiOjE3NTI0NDA4MzcsImp0aSI6ImI1MjgzZDZiNmNiYjQ0ODFiZjA5N2NhNzRhOTBjMDg2IiwidXNlcl9pZCI6Mn0.znpd_hN5xIe0qnCz_nfnwE5rbpViCi4yliicZDGFEMU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local_url}}/api/subscriptions/plans/3/",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"plans",
+								"3",
 								""
 							]
 						}
@@ -662,7 +861,28 @@
 					"name": "Verify Payment Success",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token a6030fdf2cfeb5a6a3f9775832cbaf27dd9659bf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/payments/payments/receipt/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"payments",
+								"receipt",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -678,7 +898,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/payments/payments/refunds/",
+							"raw": "http://localhost:8000/api/payments/refunds/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -686,7 +906,6 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"payments",
 								"payments",
 								"refunds",
 								""
@@ -810,12 +1029,23 @@
 				{
 					"name": "Submit feedback",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDQ0ODYzLCJpYXQiOjE3NTI0NDMwNjMsImp0aSI6IjgyNTk4MThhMjRiYzQyM2ZhYjE5OTI1OTUzNjkwOTBkIiwidXNlcl9pZCI6Mn0.8K0-EVMbPqgCh1hSmHcbtutmw5_cX_O1pxgcCUtBfrU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -850,7 +1080,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Token 3cc6333ee473e4a75f967560dbea606ef14def17",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDQ0ODYzLCJpYXQiOjE3NTI0NDMwNjMsImp0aSI6IjgyNTk4MThhMjRiYzQyM2ZhYjE5OTI1OTUzNjkwOTBkIiwidXNlcl9pZCI6Mn0.8K0-EVMbPqgCh1hSmHcbtutmw5_cX_O1pxgcCUtBfrU",
 								"type": "text"
 							}
 						],
@@ -1040,6 +1270,47 @@
 								"feedback",
 								"1",
 								"update_status",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "feedback update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUyNDQ0ODYzLCJpYXQiOjE3NTI0NDMwNjMsImp0aSI6IjgyNTk4MThhMjRiYzQyM2ZhYjE5OTI1OTUzNjkwOTBkIiwidXNlcl9pZCI6Mn0.8K0-EVMbPqgCh1hSmHcbtutmw5_cX_O1pxgcCUtBfrU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n      \"message\": \"Updated feedback message.\"  // Only include fields you want to update\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/4/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"4",
 								""
 							]
 						}

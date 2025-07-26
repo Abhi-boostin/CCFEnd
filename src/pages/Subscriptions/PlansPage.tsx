@@ -1,322 +1,162 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNotification } from '../../contexts/NotificationContext';
+                                                  import React, { useEffect, useState } from 'react';
 import { subscriptionService } from '../../services/api';
-import { paymentService } from '../../services/api';
-import LoadingSpinner from '../../components/UI/LoadingSpinner';
-import { 
-  ChefHat, 
-  Clock, 
-  CheckCircle, 
-  Star,
-  Utensils,
-  Home,
-  Truck
-} from 'lucide-react';
+import { useNotification } from '../../contexts/NotificationContext';
 
 interface Plan {
   id: number;
   code: string;
   name: string;
   description: string;
-  service_type: 'mess' | 'tiffin';
+  service_type: string;
   base_price: number;
-  included_meals: any;
+  included_meals: string[];
   can_add_breakfast: boolean;
   breakfast_addon_price: number;
   duration_days: number;
   is_active: boolean;
 }
 
+interface SubscribedPlan {
+  planId: number;
+  totalPaid: number;
+}
+
 export default function PlansPage() {
-  const { user } = useAuth();
-  const { addNotification } = useNotification();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [includeBreakfast, setIncludeBreakfast] = useState(false);
-  const [paymentModal, setPaymentModal] = useState<{ subscriptionId: number; plan: Plan; amount: number } | null>(null);
-  const [paying, setPaying] = useState(false);
+  const [subscribing, setSubscribing] = useState<number | null>(null);
+  const [subscribedPlans, setSubscribedPlans] = useState<SubscribedPlan[]>([]);
+  const [breakfastSelections, setBreakfastSelections] = useState<{ [planId: number]: boolean }>({});
+  const { addNotification } = useNotification();
 
   useEffect(() => {
-    fetchPlans();
-  }, []);
-
   const fetchPlans = async () => {
+      setLoading(true);
     try {
       const response = await subscriptionService.getPlans();
-      setPlans(response.data.filter((plan: Plan) => plan.is_active));
+        setPlans(response.data);
     } catch (error: any) {
-      console.error('Failed to fetch plans:', error);
       addNotification({
         type: 'error',
-        title: 'Error',
-        message: 'Failed to load meal plans'
+          title: 'Failed to Load Plans',
+          message: error.response?.data?.detail || 'Could not fetch plans.'
       });
     } finally {
       setLoading(false);
     }
   };
+    fetchPlans();
+  }, [addNotification]);
 
-  const handleSubscribe = async (plan: Plan) => {
-    if (!user) {
-      addNotification({
-        type: 'warning',
-        title: 'Login Required',
-        message: 'Please login to subscribe to a meal plan'
-      });
-      return;
-    }
+  const handleBreakfastChange = (planId: number, value: boolean) => {
+    setBreakfastSelections(prev => ({ ...prev, [planId]: value }));
+  };
 
+  const handleSubscribe = async (planId: number) => {
+    setSubscribing(planId);
     try {
-      const subscriptionData = {
-        plan: plan.id,
-        breakfast_included: includeBreakfast
-      };
-
-      const response = await subscriptionService.createSubscription(subscriptionData);
-      const subscriptionId = response.data.id;
+      const breakfast_included = breakfastSelections[planId] || false;
+      const response = await subscriptionService.createSubscription({ plan: planId, breakfast_included });
+      const totalPaid = response.data?.data?.total_paid || 0;
+      setSubscribedPlans(prev => [...prev, { planId, totalPaid }]);
       addNotification({
         type: 'success',
-        title: 'Subscription Created',
-        message: 'Your meal plan subscription has been created successfully!'
-      });
-
-      // Immediately create payment order for this subscription
-      try {
-        const orderRes = await paymentService.createOrder({ subscription: subscriptionId });
-        // Show payment modal with details
-        setPaymentModal({
-          subscriptionId,
-          plan,
-          amount: plan.base_price + (includeBreakfast ? plan.breakfast_addon_price : 0)
+        title: 'Subscribed',
+        message: 'You have successfully subscribed to this plan.'
         });
-      } catch (err: any) {
-        addNotification({
-          type: 'error',
-          title: 'Payment Order Failed',
-          message: err.response?.data?.detail || 'Failed to create payment order. Please try from Subscriptions tab.'
-        });
-      }
-
-      setSelectedPlan(null);
     } catch (error: any) {
       addNotification({
         type: 'error',
         title: 'Subscription Failed',
-        message: error.response?.data?.detail || 'Failed to create subscription'
+        message: error.response?.data?.detail || 'Could not subscribe to this plan.'
       });
+    } finally {
+      setSubscribing(null);
     }
   };
 
-  // Simulate payment completion
-  const handlePayNow = async () => {
-    if (!paymentModal) return;
-    setPaying(true);
-    // Simulate payment delay
-    setTimeout(() => {
-      setPaying(false);
-      setPaymentModal(null);
-      addNotification({
-        type: 'success',
-        title: 'Payment Successful',
-        message: 'Your payment was successful! Your subscription is now active.'
-      });
-      // Optionally, refresh subscriptions/payments here
-      // window.location.reload();
-    }, 1500);
-  };
+  const isPlanSubscribed = (planId: number) =>
+    subscribedPlans.some(sp => sp.planId === planId);
 
-  const getServiceIcon = (serviceType: string) => {
-    return serviceType === 'mess' ? <Home className="w-6 h-6" /> : <Truck className="w-6 h-6" />;
-  };
-
-  const getServiceColor = (serviceType: string) => {
-    return serviceType === 'mess' ? 'text-blue-600' : 'text-green-600';
-  };
-
-  const getServiceBgColor = (serviceType: string) => {
-    return serviceType === 'mess' ? 'bg-blue-100' : 'bg-green-100';
-  };
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  const getTotalPaid = (planId: number) =>
+    subscribedPlans.find(sp => sp.planId === planId)?.totalPaid;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Choose Your Meal Plan</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Select from our variety of meal plans designed to fit your lifestyle and preferences. 
-            Fresh, nutritious meals delivered with care.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {plans.map((plan) => (
-            <div key={plan.id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 ${getServiceBgColor(plan.service_type)} rounded-xl flex items-center justify-center`}>
-                    <span className={getServiceColor(plan.service_type)}>
-                      {getServiceIcon(plan.service_type)}
-                    </span>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    plan.service_type === 'mess' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
-                  }`}>
-                    {plan.service_type === 'mess' ? 'Mess Service' : 'Tiffin Service'}
+    <div className="max-w-3xl mx-auto py-8 px-4">
+      <h1 className="text-2xl font-bold mb-6">Available Plans</h1>
+      {loading ? (
+        <div>Loading plans...</div>
+      ) : plans.length === 0 ? (
+        <div>No plans available.</div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2">
+          {plans.map(plan => {
+            const subscribed = isPlanSubscribed(plan.id);
+            const totalPaid = getTotalPaid(plan.id);
+            return (
+              <div key={plan.id} className="bg-white rounded-lg shadow p-6 flex flex-col border border-gray-200">
+                <div className="mb-2 text-xs text-gray-400">{plan.code}</div>
+                <h2 className="text-xl font-semibold mb-1">{plan.name}</h2>
+                <div className="mb-2 text-sm text-gray-500">{plan.description}</div>
+                <div className="mb-2">
+                  <span className="inline-block px-2 py-1 rounded bg-orange-100 text-orange-700 text-xs font-medium mr-2">
+                    {plan.service_type === 'mess' ? 'Mess Service' : plan.service_type === 'tiffin' ? 'Tiffin Service' : plan.service_type}
                   </span>
+                  {plan.is_active ? (
+                    <span className="inline-block px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">Active</span>
+                  ) : (
+                    <span className="inline-block px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-medium">Inactive</span>
+                  )}
                 </div>
-
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <p className="text-gray-600 mb-4 min-h-[3rem]">{plan.description}</p>
-
-                <div className="mb-6">
-                  <div className="flex items-baseline mb-2">
-                    <span className="text-3xl font-bold text-gray-900">₹{plan.base_price}</span>
-                    <span className="text-gray-600 ml-2">/ {plan.duration_days} days</span>
-                  </div>
-                  <p className="text-sm text-gray-500">
-                    ₹{Math.round(plan.base_price / plan.duration_days)} per day
-                  </p>
+                <div className="mb-2 text-lg font-bold text-gray-900">₹{plan.base_price} <span className="text-sm font-normal text-gray-600">/ {plan.duration_days} days</span></div>
+                <div className="mb-2">
+                  <span className="font-semibold text-gray-700">Included Meals:</span>
+                  <ul className="list-disc list-inside ml-2 text-sm text-gray-700">
+                    {plan.included_meals && plan.included_meals.length > 0 ? (
+                      plan.included_meals.map(meal => (
+                        <li key={meal}>{meal.charAt(0).toUpperCase() + meal.slice(1)}</li>
+                      ))
+                    ) : (
+                      <li>None</li>
+                    )}
+                  </ul>
                 </div>
-
-                {plan.included_meals && (
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                      <Utensils className="w-4 h-4 mr-2" />
-                      Included Meals
-                    </h4>
-                    <div className="space-y-2">
-                      {Object.entries(plan.included_meals).map(([meal, included]) => (
-                        <div key={meal} className="flex items-center space-x-2">
-                          {included ? (
-                            <CheckCircle className="w-4 h-4 text-green-500" />
-                          ) : (
-                            <div className="w-4 h-4 border border-gray-300 rounded-full" />
-                          )}
-                          <span className={`text-sm capitalize ${included ? 'text-gray-900' : 'text-gray-500'}`}>
-                            {meal}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {plan.can_add_breakfast && (
-                  <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-semibold text-orange-900">Add Breakfast</h4>
-                        <p className="text-sm text-orange-700">+₹{plan.breakfast_addon_price}</p>
-                      </div>
-                      <ChefHat className="w-5 h-5 text-orange-600" />
-                    </div>
-                  </div>
-                )}
-
-                <button
-                  onClick={() => setSelectedPlan(plan)}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
-                >
-                  Subscribe Now
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {plans.length === 0 && (
-          <div className="text-center py-12">
-            <ChefHat className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Plans Available</h3>
-            <p className="text-gray-600">Please check back later for available meal plans.</p>
-          </div>
-        )}
-      </div>
-
-      {/* Subscription Modal */}
-      {selectedPlan && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Subscribe to {selectedPlan.name}</h3>
-            
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-700">Base Price:</span>
-                <span className="font-semibold">₹{selectedPlan.base_price}</span>
-              </div>
-              
-              {selectedPlan.can_add_breakfast && (
-                <div className="mt-4">
-                  <label className="flex items-center space-x-3">
+                  <div className="mb-2 p-2 bg-yellow-50 rounded flex items-center">
                     <input
                       type="checkbox"
-                      checked={includeBreakfast}
-                      onChange={(e) => setIncludeBreakfast(e.target.checked)}
-                      className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                      id={`breakfast-${plan.id}`}
+                      checked={!!breakfastSelections[plan.id]}
+                      onChange={e => handleBreakfastChange(plan.id, e.target.checked)}
+                      className="mr-2"
+                      disabled={subscribed}
                     />
-                    <span className="text-gray-700">Add Breakfast (+₹{selectedPlan.breakfast_addon_price})</span>
+                    <label htmlFor={`breakfast-${plan.id}`} className="font-semibold text-yellow-700 cursor-pointer">
+                      Breakfast Add-on (+₹{plan.breakfast_addon_price})
                   </label>
                 </div>
               )}
-              
-              <div className="border-t pt-4 mt-4">
-                <div className="flex justify-between items-center text-lg font-bold">
-                  <span>Total:</span>
-                  <span>₹{selectedPlan.base_price + (includeBreakfast ? selectedPlan.breakfast_addon_price : 0)}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex space-x-3">
+                {subscribed && (
+                  <>
+                    <div className="mb-2 text-green-700 font-semibold">Total Paid: ₹{totalPaid}</div>
               <button
-                onClick={() => setSelectedPlan(null)}
-                className="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-lg font-medium transition-colors"
+                      className="mb-2 px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+                      disabled
               >
-                Cancel
+                      Pay Now
               </button>
-              <button
-                onClick={() => handleSubscribe(selectedPlan)}
-                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
-              >
-                Confirm Subscription
-              </button>
-            </div>
-          </div>
-        </div>
+                  </>
       )}
-
-      {/* Payment Modal */}
-      {paymentModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Complete Payment</h3>
-            <div className="mb-4">
-              <p className="text-lg font-semibold text-gray-900">{paymentModal.plan.name}</p>
-              <p className="text-gray-600">Total Amount: <span className="font-bold">₹{paymentModal.amount}</span></p>
-            </div>
-            <div className="flex space-x-3">
               <button
-                onClick={() => setPaymentModal(null)}
-                className="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 px-4 rounded-lg font-medium transition-colors"
-                disabled={paying}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handlePayNow}
-                className={`flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors ${paying ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={paying}
-              >
-                {paying ? 'Processing...' : 'Pay Now'}
+                  className={`mt-auto px-4 py-2 rounded bg-orange-600 text-white font-semibold hover:bg-orange-700 transition-colors disabled:opacity-50`}
+                  disabled={subscribing === plan.id || subscribed || !plan.is_active}
+                  onClick={() => handleSubscribe(plan.id)}
+                >
+                  {subscribed ? 'Subscribed' : (subscribing === plan.id ? 'Subscribing...' : 'Subscribe')}
               </button>
             </div>
-          </div>
+            );
+          })}
         </div>
       )}
     </div>

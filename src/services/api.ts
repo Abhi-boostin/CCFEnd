@@ -17,15 +17,34 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor for error handling
+// Response interceptor for error handling and token refresh
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      delete apiClient.defaults.headers.common['Authorization'];
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) {
+        try {
+          const res = await authService.refreshAccessToken({ refresh: refreshToken });
+          const newAccess = res.data.access;
+          localStorage.setItem('accessToken', newAccess);
+          apiClient.defaults.headers.common['Authorization'] = `Bearer ${newAccess}`;
+          originalRequest.headers['Authorization'] = `Bearer ${newAccess}`;
+          return apiClient(originalRequest);
+        } catch (refreshError) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          delete apiClient.defaults.headers.common['Authorization'];
+          window.location.href = '/login';
+        }
+      } else {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        delete apiClient.defaults.headers.common['Authorization'];
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -41,6 +60,8 @@ export const authService = {
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${access}`;
     return response;
   },
+  refreshAccessToken: (data: { refresh: string }) =>
+    apiClient.post('/accounts/token/refresh/', data),
   register: (userData: any) =>
     apiClient.post('/accounts/register/', userData),
   getProfile: () =>
