@@ -44,13 +44,6 @@ export default function ProfilePage() {
     regular_profile: user?.regular_profile || {
       address: '',
       landmark: ''
-    },
-    mess_owner_profile: user?.mess_owner_profile || {
-      mess_name: '',
-      business_address: '',
-      business_phone: '',
-      business_email: '',
-      gst_number: ''
     }
   });
 
@@ -87,10 +80,21 @@ export default function ProfilePage() {
     }
 
     try {
-      await authService.completeProfile({
-        ...profileData,
+      const profilePayload: any = {
+        user_type: profileData.user_type,
+        is_tiffin_user: profileData.is_tiffin_user,
+        is_mess_user: profileData.is_mess_user,
         preferred_delivery_time,
-      });
+      };
+
+      // Add user type specific profile data
+      if (profileData.user_type === 'student') {
+        profilePayload.student_profile = profileData.student_profile;
+      } else if (profileData.user_type === 'regular') {
+        profilePayload.regular_profile = profileData.regular_profile;
+      }
+
+      await authService.completeProfile(profilePayload);
       await refreshUser();
       addNotification({
         type: 'success',
@@ -297,12 +301,14 @@ export default function ProfilePage() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         User Type
                       </label>
-                      <input
-                        type="text"
-                        value={user.user_type}
-                        disabled
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 capitalize"
-                      />
+                      <select
+                        value={profileData.user_type}
+                        onChange={(e) => setProfileData({ ...profileData, user_type: e.target.value as 'student' | 'regular' })}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      >
+                        <option value="student">Student</option>
+                        <option value="regular">Regular User</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -363,7 +369,7 @@ export default function ProfilePage() {
                 </div>
 
                 {/* User Type Specific Fields */}
-                {user.user_type === 'student' && (
+                {profileData.user_type === 'student' && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <GraduationCap className="w-5 h-5 mr-2" />
@@ -383,6 +389,7 @@ export default function ProfilePage() {
                             student_profile: { ...profileData.student_profile, institute: e.target.value }
                           })}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Enter your institute name"
                         />
                       </div>
                       <div>
@@ -397,6 +404,7 @@ export default function ProfilePage() {
                             student_profile: { ...profileData.student_profile, student_id: e.target.value }
                           })}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Enter your student ID (optional)"
                         />
                       </div>
                       <div className="md:col-span-2">
@@ -412,13 +420,14 @@ export default function ProfilePage() {
                             student_profile: { ...profileData.student_profile, hostel: e.target.value }
                           })}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Enter your hostel name"
                         />
                       </div>
                     </div>
                   </div>
                 )}
 
-                {user.user_type === 'regular' && (
+                {profileData.user_type === 'regular' && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <MapPin className="w-5 h-5 mr-2" />
@@ -438,6 +447,7 @@ export default function ProfilePage() {
                             regular_profile: { ...profileData.regular_profile, address: e.target.value }
                           })}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Enter your complete address"
                         />
                       </div>
                       <div>
@@ -452,89 +462,7 @@ export default function ProfilePage() {
                             regular_profile: { ...profileData.regular_profile, landmark: e.target.value }
                           })}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {user.user_type === 'mess_owner' && (
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                      <Building className="w-5 h-5 mr-2" />
-                      Business Information
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Mess Name
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={profileData.mess_owner_profile.mess_name}
-                          onChange={(e) => setProfileData({
-                            ...profileData,
-                            mess_owner_profile: { ...profileData.mess_owner_profile, mess_name: e.target.value }
-                          })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Business Phone
-                        </label>
-                        <input
-                          type="tel"
-                          value={profileData.mess_owner_profile.business_phone}
-                          onChange={(e) => setProfileData({
-                            ...profileData,
-                            mess_owner_profile: { ...profileData.mess_owner_profile, business_phone: e.target.value }
-                          })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Business Email
-                        </label>
-                        <input
-                          type="email"
-                          value={profileData.mess_owner_profile.business_email}
-                          onChange={(e) => setProfileData({
-                            ...profileData,
-                            mess_owner_profile: { ...profileData.mess_owner_profile, business_email: e.target.value }
-                          })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          GST Number
-                        </label>
-                        <input
-                          type="text"
-                          value={profileData.mess_owner_profile.gst_number}
-                          onChange={(e) => setProfileData({
-                            ...profileData,
-                            mess_owner_profile: { ...profileData.mess_owner_profile, gst_number: e.target.value }
-                          })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Business Address
-                        </label>
-                        <textarea
-                          required
-                          rows={3}
-                          value={profileData.mess_owner_profile.business_address}
-                          onChange={(e) => setProfileData({
-                            ...profileData,
-                            mess_owner_profile: { ...profileData.mess_owner_profile, business_address: e.target.value }
-                          })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Enter nearby landmark (optional)"
                         />
                       </div>
                     </div>

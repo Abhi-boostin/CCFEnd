@@ -6,14 +6,13 @@ interface User {
   username: string;
   email: string;
   phone: string;
-  user_type: 'student' | 'regular' | 'mess_owner';
+  user_type: 'student' | 'regular';
   is_tiffin_user: boolean;
   is_mess_user: boolean;
   status: 'unverified' | 'registration_complete' | 'profile_complete';
   preferred_delivery_time?: string;
   student_profile?: any;
   regular_profile?: any;
-  mess_owner_profile?: any;
 }
 
 interface AuthContextType {

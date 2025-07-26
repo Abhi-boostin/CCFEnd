@@ -7,13 +7,4 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://mess.eba-4xdsrmc9.ap-south-1.elasticbeanstalk.com',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
 });

@@ -14,7 +14,7 @@ interface FormData {
 }
 
 interface ProfileData {
-  user_type: 'student' | 'regular' | 'mess_owner';
+  user_type: 'student' | 'regular';
   is_tiffin_user: boolean;
   is_mess_user: boolean;
   preferred_delivery_time: string;
@@ -26,13 +26,6 @@ interface ProfileData {
   regular_profile: {
     address: string;
     landmark: string;
-  };
-  mess_owner_profile: {
-    mess_name: string;
-    business_address: string;
-    business_phone: string;
-    business_email: string;
-    gst_number: string;
   };
 }
 
@@ -63,13 +56,6 @@ export default function RegisterPage() {
     regular_profile: {
       address: '',
       landmark: ''
-    },
-    mess_owner_profile: {
-      mess_name: '',
-      business_address: '',
-      business_phone: '',
-      business_email: '',
-      gst_number: ''
     }
   });
 
@@ -87,7 +73,6 @@ export default function RegisterPage() {
   const [otpSent, setOtpSent] = useState(false);
 
   // Profile completion states
-  const [showProfileForm, setShowProfileForm] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
 
   const validateForm = () => {
@@ -143,13 +128,6 @@ export default function RegisterPage() {
     } else if (profileData.user_type === 'regular') {
       if (!profileData.regular_profile.address) {
         errors.address = 'Address is required';
-      }
-    } else if (profileData.user_type === 'mess_owner') {
-      if (!profileData.mess_owner_profile.mess_name) {
-        errors.mess_name = 'Mess name is required';
-      }
-      if (!profileData.mess_owner_profile.business_address) {
-        errors.business_address = 'Business address is required';
       }
     }
     
@@ -266,14 +244,12 @@ export default function RegisterPage() {
         phone: formatPhoneNumber(formData.phone), 
         otp: otp.trim() 
       });
-      
       addNotification({
         type: 'success',
         title: 'OTP Verified',
-        message: 'Phone number verified successfully!'
+        message: 'Phone number verified successfully! Please login to continue.'
       });
-      
-      setShowProfileForm(true);
+      navigate('/login'); // Redirect to login after OTP verification
     } catch (error: any) {
       addNotification({
         type: 'error',
@@ -305,8 +281,6 @@ export default function RegisterPage() {
         profilePayload.student_profile = profileData.student_profile;
       } else if (profileData.user_type === 'regular') {
         profilePayload.regular_profile = profileData.regular_profile;
-      } else if (profileData.user_type === 'mess_owner') {
-        profilePayload.mess_owner_profile = profileData.mess_owner_profile;
       }
 
       await authService.completeProfile(profilePayload);
@@ -366,16 +340,6 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleMessOwnerProfileChange = (field: string, value: string) => {
-    setProfileData(prev => ({
-      ...prev,
-      mess_owner_profile: {
-        ...prev.mess_owner_profile!,
-        [field]: value
-      }
-    }));
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -391,7 +355,7 @@ export default function RegisterPage() {
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* Registration Form */}
-          {!showProfileForm && (
+          {!otpSent && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
@@ -505,71 +469,64 @@ export default function RegisterPage() {
                 {formErrors.confirm_password && <p className="text-red-500 text-xs mt-1">{formErrors.confirm_password}</p>}
               </div>
 
-              {/* OTP Field */}
-              <div>
-                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
-                  OTP Verification
-                </label>
-                <div className="flex gap-3">
-                  <div className="flex-1 relative">
-                    <input
-                      id="otp"
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                      placeholder="Enter 6-digit OTP"
-                      maxLength={6}
-                      disabled={!otpSent}
-                    />
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <UserPlus className="w-5 h-5 mr-2" />
+                    Create Account
+                  </>
+                )}
+              </button>
+
+              {/* OTP Field - Only visible after Create Account is clicked */}
+              {otpSent && (
+                <div>
+                  <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
+                    OTP Verification
+                  </label>
+                  <div className="flex gap-3">
+                    <div className="flex-1 relative">
+                      <input
+                        id="otp"
+                        type="text"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                        placeholder="Enter 6-digit OTP"
+                        maxLength={6}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSendOtp}
+                      disabled={resendLoading || !formData.phone.trim()}
+                      className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                    >
+                      {resendLoading ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        'Resend OTP'
+                      )}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleSendOtp}
-                    disabled={resendLoading || !formData.phone.trim()}
-                    className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                  >
-                    {resendLoading ? (
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : otpSent ? (
-                      'Resend OTP'
-                    ) : (
-                      'Send OTP'
-                    )}
-                  </button>
-                </div>
-                {otpSent && (
                   <p className="text-sm text-gray-600 mt-2">
                     {phoneExists 
                       ? 'An account with this phone number already exists. Please verify with OTP.'
                       : 'OTP has been sent to your phone number.'
                     }
                   </p>
-                )}
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? (
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  ) : (
-                    <>
-                      <UserPlus className="w-5 h-5 mr-2" />
-                      Create Account
-                    </>
-                  )}
-                </button>
-                
-                {otpSent && (
+                  
                   <button
                     type="button"
                     onClick={handleOtpSubmit}
                     disabled={otpLoading || !otp.trim()}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {otpLoading ? (
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -577,257 +534,13 @@ export default function RegisterPage() {
                       'Verify OTP'
                     )}
                   </button>
-                )}
-              </div>
-                        </form>
+                </div>
+              )}
+            </form>
           )}
 
           {/* Profile Completion Form */}
-          {showProfileForm && (
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="text-lg font-semibold text-gray-900">Complete Your Profile</h3>
-                <p className="text-sm text-gray-600 mt-2">
-                  Please provide additional information to complete your account setup.
-                </p>
-              </div>
-
-              <form onSubmit={handleProfileSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="user_type" className="block text-sm font-medium text-gray-700 mb-2">
-                    User Type
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="user_type"
-                      name="user_type"
-                      value={profileData.user_type}
-                      onChange={handleProfileChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                    >
-                      <option value="student">Student</option>
-                      <option value="regular">Regular User</option>
-                      <option value="mess_owner">Mess Owner</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="is_tiffin_user"
-                      checked={profileData.is_tiffin_user}
-                      onChange={handleProfileChange}
-                      className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Tiffin Service</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="is_mess_user"
-                      checked={profileData.is_mess_user}
-                      onChange={handleProfileChange}
-                      className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Mess Service</span>
-                  </label>
-                </div>
-
-                <div>
-                  <label htmlFor="preferred_delivery_time" className="block text-sm font-medium text-gray-700 mb-2">
-                    Preferred Delivery Time
-                  </label>
-                  <input
-                    id="preferred_delivery_time"
-                    name="preferred_delivery_time"
-                    type="time"
-                    value={profileData.preferred_delivery_time}
-                    onChange={handleProfileChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                  />
-                </div>
-
-                {/* Student Profile Fields */}
-                {profileData.user_type === 'student' && (
-                  <div className="space-y-4 border-t pt-4">
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <GraduationCap className="w-4 h-4 mr-2" />
-                      Student Information
-                    </h4>
-                    <div>
-                      <label htmlFor="institute" className="block text-sm font-medium text-gray-700 mb-2">
-                        Institute/College
-                      </label>
-                                             <input
-                         id="institute"
-                         type="text"
-                         value={profileData.student_profile.institute}
-                         onChange={(e) => handleStudentProfileChange('institute', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your institute name"
-                         required
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="student_id" className="block text-sm font-medium text-gray-700 mb-2">
-                         Student ID (Optional)
-                       </label>
-                       <input
-                         id="student_id"
-                         type="text"
-                         value={profileData.student_profile.student_id}
-                         onChange={(e) => handleStudentProfileChange('student_id', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your student ID"
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="hostel" className="block text-sm font-medium text-gray-700 mb-2">
-                         Hostel
-                       </label>
-                       <input
-                         id="hostel"
-                         type="text"
-                         value={profileData.student_profile.hostel}
-                         onChange={(e) => handleStudentProfileChange('hostel', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your hostel name"
-                         required
-                       />
-                    </div>
-                  </div>
-                )}
-
-                {/* Regular User Profile Fields */}
-                {profileData.user_type === 'regular' && (
-                  <div className="space-y-4 border-t pt-4">
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <Home className="w-4 h-4 mr-2" />
-                      Address Information
-                    </h4>
-                    <div>
-                      <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                        Address
-                      </label>
-                                             <textarea
-                         id="address"
-                         value={profileData.regular_profile.address}
-                         onChange={(e) => handleRegularProfileChange('address', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your complete address"
-                         rows={3}
-                         required
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="landmark" className="block text-sm font-medium text-gray-700 mb-2">
-                         Landmark (Optional)
-                       </label>
-                       <input
-                         id="landmark"
-                         type="text"
-                         value={profileData.regular_profile.landmark}
-                         onChange={(e) => handleRegularProfileChange('landmark', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter nearby landmark"
-                       />
-                    </div>
-                  </div>
-                )}
-
-                {/* Mess Owner Profile Fields */}
-                {profileData.user_type === 'mess_owner' && (
-                  <div className="space-y-4 border-t pt-4">
-                    <h4 className="font-medium text-gray-900 flex items-center">
-                      <Building className="w-4 h-4 mr-2" />
-                      Business Information
-                    </h4>
-                    <div>
-                      <label htmlFor="mess_name" className="block text-sm font-medium text-gray-700 mb-2">
-                        Mess Name
-                      </label>
-                                             <input
-                         id="mess_name"
-                         type="text"
-                         value={profileData.mess_owner_profile.mess_name}
-                         onChange={(e) => handleMessOwnerProfileChange('mess_name', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your mess name"
-                         required
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="business_address" className="block text-sm font-medium text-gray-700 mb-2">
-                         Business Address
-                       </label>
-                       <textarea
-                         id="business_address"
-                         value={profileData.mess_owner_profile.business_address}
-                         onChange={(e) => handleMessOwnerProfileChange('business_address', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter your business address"
-                         rows={3}
-                         required
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="business_phone" className="block text-sm font-medium text-gray-700 mb-2">
-                         Business Phone (Optional)
-                       </label>
-                       <input
-                         id="business_phone"
-                         type="tel"
-                         value={profileData.mess_owner_profile.business_phone}
-                         onChange={(e) => handleMessOwnerProfileChange('business_phone', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter business phone number"
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="business_email" className="block text-sm font-medium text-gray-700 mb-2">
-                         Business Email (Optional)
-                       </label>
-                       <input
-                         id="business_email"
-                         type="email"
-                         value={profileData.mess_owner_profile.business_email}
-                         onChange={(e) => handleMessOwnerProfileChange('business_email', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter business email"
-                       />
-                     </div>
-                     <div>
-                       <label htmlFor="gst_number" className="block text-sm font-medium text-gray-700 mb-2">
-                         GST Number (Optional)
-                       </label>
-                       <input
-                         id="gst_number"
-                         type="text"
-                         value={profileData.mess_owner_profile.gst_number}
-                         onChange={(e) => handleMessOwnerProfileChange('gst_number', e.target.value)}
-                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                         placeholder="Enter GST number"
-                       />
-                    </div>
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={profileLoading}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {profileLoading ? (
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  ) : (
-                    'Complete Profile'
-                  )}
-                </button>
-              </form>
-            </div>
-          )}
+          {/* This section is removed as profile completion is now handled on login */}
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
